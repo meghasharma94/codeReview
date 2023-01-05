@@ -1,0 +1,110 @@
+Guidelines for Java Code Reviews 
+
+Naming Conventions - 	Meaningful naming conventions help ensure the readability and maintainability of the application.
+Ensure variable, method, and class names convey the subject
+
+	1) Use all lower cases for package names and use reversed Internet domain naming conventions
+  2) Class names should start with Capitals. Class names should be nouns, in mixed case
+    with the first letter of each internal word capitalized. Try to keep your class names simple
+    and descriptive
+  3) Variable and method names should use CamelCase. Except for variables, all instance, class, and
+      class constants are in mixed case with a lowercase first letter. Internal words start with capital letters
+
+  4) Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.
+  5) The names of variables declared class constants and of ANSI constants should be all uppercase with words separated by underscores (“_”)
+  
+  
+ File Organization
+ 
+ 1) Files longer than 2000 lines are cumbersome and should be avoided
+ 2) There is no standard limit on the number of parameters you can specify in Java, but according to "Code Complete"  you should limit the amount of parameters to         about 7, any more and it will have a negative effect on the readability of your code
+ 
+ 
+ *** Each Java source file contains a single public class or interface. When private classes and
+interfaces are associated with a public class, you can put them in the same source file as the
+public class. The public class should be the first class or interface in the file.
+
+Declaration
+
+ 1) Class (static) variables - First the public class variables, then the protected, and then the private.
+ 2) Instance variables - First public, then protected, and then private.
+ 3) Methods -  These methods should be grouped by functionality rather than by scope or accessibility.
+ 4) Number Per Line - 
+    a) One declaration per line is recommended since it encourages commenting. In other words,
+        int level; // indentation level
+        int size; // size of table
+      is preferred over
+        int level, size;
+        
+   b) In absolutely no case should variables and functions be declared on the same line
+   c) Do not put different types on the same line
+   
+  5) Class and Interface Declarations -
+    a) When coding Java classes and interfaces, the following formatting rules should be followed:
+      •  No space between a method name and the parenthesis “(“ starting its parameter list
+      • Open brace “{” appears at the end of the same line as the declaration statement
+      • Closing brace “}” starts a line by itself indented to match its corresponding opening
+        statement, except when it is a null statement the “}” should appear immediately after the
+        “{“
+              class Sample extends Object {
+              int ivar1;
+              int ivar2;
+              Sample(int i, int j) {
+              ivar1 = i;
+              ivar2 = j;
+              }
+              int emptyMethod() {}
+               ...
+              }
+      • Methods are separated by a blank line
+      
+      
+    Java 8+
+    
+    1) Replacing loops and extremely verbose methods with streams and lambdas makes the code look cleaner
+    2) using optional class to represent values that may not have valid states. Or use annotations such as @NonNull or @Nullable.
+    3)
+    
+    Final :
+      
+    1) References exposed to the client code can be manipulated even if the field is final. Instead, consider cloning the reference or creating a new reference and           then assigning it to the field.Need to be cautious so as not to expose internal mutable state
+    
+    ex : 
+    private final List<Integer> items;
+    public Items(List<Integer> items) {
+    this.items = new ArrayList<>(items);
+    }
+    
+    Exceptions :
+    
+    1) While catching exceptions, if you have multiple catch blocks, ensure that the sequence of catch blocks is most specific to least.
+    2) If the situation is recoverable and can be handled by the client (the consumer of your library or code) then it is good to use checked exceptions
+    2) 
+    
+    
+    Data Structure - understand the pros and cons of each to use them in the correct context.
+    
+    1) Map: Useful if you have unordered items in the form of key, value pairs and require efficient retrieval, insertion, and deletion operations. 
+    HashMap, Hashtable,LinkedHashMap are all implementations of the Map interface
+    
+    2) List: Commonly used to create an ordered list of items. Allows duplicates. ArrayList is an implementation of the List interface. 
+    A list can be made thread-safe using Collections.synchronizedList thus removing the need for using Vector.
+    
+    3) Set: Similar to list but does not allow duplicates. HashSet implements the Set interface
+    
+    
+    Interface 
+    
+    1) If you have concrete implementations of certain interfaces (e. g. ArrayList or LinkedList) and if you use them directly in your code, then it can lead to high     coupling. Sticking with the List interface enables you to switch over the implementation any time in the future without breaking any code.
+    2) Ask yourself questions like 
+        a) Is there a benefit of creating such an interface?
+        b) Is there a scope for this interface being implemented by another class?
+        c) Is this interface generic enough to be implemented by another class?
+      If the answer to all these questions is no, then I'd definitely recommend avoiding this unnecessary interface that you'll have to maintain in the future.
+      A use case for interface should be a a use case for polymorphism, then having the interface would make more sense.
+      
+      
+        
+      
+      References :
+      https://www.oracle.com/technetwork/java/codeconventions-150003.pdf
